@@ -12,6 +12,7 @@ if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 		$_SESSION['email'] = $user[0]['email'];		
 		$_SESSION['address'] = $user[0]['address'];
 		$_SESSION['mobile'] = $user[0]['mobile'];
+		$_SESSION['isAdmin'] = $user[0]['isAdmin'];
 		header("Location:bill_list.php");
 	} else {
 		$loginError = "Invalid email or password!";

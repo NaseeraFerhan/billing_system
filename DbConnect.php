@@ -7,6 +7,7 @@ class DbConnect{
 	private $invoiceUserTable = 'billing_users';	
     private $invoiceOrderTable = 'bills';
 	private $invoiceOrderItemTable = 'bill_items';
+	private $invoiceStockTable = 'stock_details';
 	private $dbConnect = false;
 
 
@@ -47,7 +48,7 @@ class DbConnect{
 
 	public function loginUsers($email, $password){
 		$sqlQuery = "
-			SELECT id, email, first_name, last_name, address, mobile 
+			SELECT id, email, first_name, last_name, address, mobile, isAdmin 
 			FROM ".$this->invoiceUserTable." 
 			WHERE email='".$email."' AND password='".$password."'";
         return  $this->getData($sqlQuery);
@@ -102,7 +103,7 @@ class DbConnect{
 
 	public function getInvoice($invoiceId){
 		$sqlQuery = "SELECT * FROM ".$this->invoiceOrderTable." 
-			WHERE user_id = '".$_SESSION['userid']."' AND order_id = '$invoiceId'";
+			WHERE order_id = '$invoiceId'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);	
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		return $row;
@@ -129,5 +130,30 @@ class DbConnect{
 		$this->deleteInvoiceItems($invoiceId);	
 		return $result;
 	}
+
+	public function getItems(){
+		$sqlQuery = "SELECT * FROM ".$this->invoiceStockTable." ";
+		return  $this->getData($sqlQuery);
+	}
+
+	public function saveItem($POST) {		
+		$sqlInsert = "INSERT INTO ".$this->invoiceStockTable."(item_name, price, tax, stock) VALUES ('".$POST['itemName']."', '".$POST['itemPrice']."', '".$POST['itemTax']."','".$POST['stock']."')";		
+		$result = mysqli_query($this->dbConnect, $sqlInsert);
+		if($result){
+		  echo "True";
+		} else {
+		  return mysqli_error($this->dbConnect);
+		}       	
+	}	
+
+	public function saveUser($POST) {		
+		$sqlInsert = "INSERT INTO ".$this->invoiceUserTable."(email, password, first_name, last_name, mobile, address) VALUES ('".$POST['email']."', '".$POST['password']."', '".$POST['fname']."','".$POST['lname']."' , '".$POST['mobile']."','".$POST['address']."')";		
+		$result = mysqli_query($this->dbConnect, $sqlInsert);
+		if($result){
+		  echo "True";
+		} else {
+		  return mysqli_error($this->dbConnect);
+		}       	
+	}	
 }
 ?>

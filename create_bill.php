@@ -11,6 +11,36 @@
    ?>
 <title>New Invoice : Billing System</title>
 <script src="js/invoice.js"></script>
+<script>
+
+$.getJSON('get_items.php', {}, function(data) {
+    $.each(data, function(index, element) {
+       var opt = '<option value="'+element.id+'">'+element.item_name+'</option>';
+      $('#productName_1').append(opt);     
+    });
+});
+
+function selectItem(sel)
+{
+   var countdata = sel.id
+   var count = countdata[12,countdata.length-1]
+
+   $.getJSON('get_items.php', {id:sel.value}, function(data) {
+    $.each(data, function(index, element) {
+
+      if(element.id == sel.value){
+         $('#price_'+count).val(element.price)
+         $('#quantity_'+count).val('1')
+         tax = parseFloat(element.price) * (parseFloat(element.tax)/100)
+         $('#total_'+count).val((parseFloat(element.price)+tax).toString())
+      }
+
+       var opt = '<option value="'+element.id+'">'+element.item_name+'</option>';
+      $('#productName_1').append(opt);     
+    });
+});
+}
+</script>
 <link href="css/style.css" rel="stylesheet">
 <?php include('container.php');?>
 <div class="container content-invoice">
@@ -64,11 +94,15 @@
                         <input type="checkbox" class="itemRow custom-control-input" id="itemRow_1">
                         <label class="custom-control-label" for="itemRow_1"></label>
                         </div></td>
-                     <td><input type="text" name="productCode[]" id="productCode_1" class="form-control" autocomplete="off"></td>
-                     <td><input type="text" name="productName[]" id="productName_1" class="form-control" autocomplete="off"></td>
+                     <td><input readonly type="text" name="productCode[]" id="productCode_1" value="1" class="form-control" autocomplete="off"></td>
+                     <td><select onchange="selectItem(this);" name="productName[]" id="productName_1" class="form-control">
+                     <option value="">Select Item</option>
+                     </select>
+                     </td>
+                     <!-- <td><input type="text" name="productName[]" id="productName_1" class="form-control" autocomplete="off"></td> -->
                      <td><input type="number" name="quantity[]" id="quantity_1" class="form-control quantity" autocomplete="off"></td>
-                     <td><input type="number" name="price[]" id="price_1" class="form-control price" autocomplete="off"></td>
-                     <td><input type="number" name="total[]" id="total_1" class="form-control total" autocomplete="off"></td>
+                     <td><input readonly type="number" name="price[]" id="price_1" class="form-control price" autocomplete="off"></td>
+                     <td><input readonly type="number" name="total[]" id="total_1" class="form-control total" autocomplete="off"></td>
                   </tr>
                </table>
             </div>
@@ -91,17 +125,7 @@
           </div>
               </div>
           </div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <div class="form-group mt-3 mb-3 ">
-              <label>Tax Rate: &nbsp;</label>
-                 <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text currency">%</span>
-            </div>
-           <input value="" type="number" class="form-control" name="taxRate" id="taxRate" placeholder="Tax Rate">
-          </div>
-              </div>
-          </div>
+          
           <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div class="form-group mt-3 mb-3 ">
               <label>Tax Amount: &nbsp;</label>
@@ -125,27 +149,10 @@
               </div>
           </div>
           <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <div class="form-group mt-3 mb-3 ">
-              <label>Amount Paid: &nbsp;</label>
-                 <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text currency">₹</span>
-            </div>
-            <input value="" type="number" class="form-control" name="amountPaid" id="amountPaid" placeholder="Amount Paid">
-          </div>
+            
               </div>
           </div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <div class="form-group mt-3 mb-3 ">
-              <label>Amount Due: &nbsp;</label>
-                 <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text currency">₹</span>
-            </div>
-             <input value="" type="number" class="form-control" name="amountDue" id="amountDue" placeholder="Amount Due">
-          </div>
-              </div>
-          </div>
+          
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                
                <br>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 03, 2021 at 03:06 PM
+-- Generation Time: Mar 14, 2021 at 06:53 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.14
 
@@ -34,15 +34,17 @@ CREATE TABLE `billing_users` (
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `mobile` bigint(20) NOT NULL,
-  `address` text NOT NULL
+  `address` text NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `billing_users`
 --
 
-INSERT INTO `billing_users` (`id`, `email`, `password`, `first_name`, `last_name`, `mobile`, `address`) VALUES
-(1, 'admin@gmail.com', 'admin', 'Admin', '', 9988776655, 'Admin address');
+INSERT INTO `billing_users` (`id`, `email`, `password`, `first_name`, `last_name`, `mobile`, `address`, `isAdmin`) VALUES
+(1, 'admin@gmail.com', 'admin', 'Admin', '', 9988776655, 'Admin address', 1),
+(2, 'sarthajroshan@gmail.com', '123456', 'Sartaj', 'Roshan', 9645678400, 'address', 0);
 
 -- --------------------------------------------------------
 
@@ -81,6 +83,27 @@ CREATE TABLE `bill_items` (
   `order_item_final_amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stock_details`
+--
+
+CREATE TABLE `stock_details` (
+  `id` int(11) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `price` double NOT NULL,
+  `tax` double NOT NULL,
+  `stock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stock_details`
+--
+
+INSERT INTO `stock_details` (`id`, `item_name`, `price`, `tax`, `stock`) VALUES
+(1, 'item 1', 100, 2, 10);
+
 --
 -- Indexes for dumped tables
 --
@@ -104,6 +127,12 @@ ALTER TABLE `bill_items`
   ADD PRIMARY KEY (`order_item_id`);
 
 --
+-- Indexes for table `stock_details`
+--
+ALTER TABLE `stock_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -111,19 +140,25 @@ ALTER TABLE `bill_items`
 -- AUTO_INCREMENT for table `billing_users`
 --
 ALTER TABLE `billing_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `bill_items`
 --
 ALTER TABLE `bill_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `stock_details`
+--
+ALTER TABLE `stock_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

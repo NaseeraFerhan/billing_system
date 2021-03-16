@@ -24,6 +24,35 @@
           <a class="dropdown-item" href="create_bill.php">Create Bill</a>
         </div>
       </li>
+
+      <li class="nav-item  dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
+          Inventory
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="add_items.php">Add Item</a>
+          <!-- <a class="dropdown-item" href="create_bill.php">Create Bill</a> -->
+        </div>
+      </li>
+
+      <?php 
+         if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']==1){
+           ?>
+
+<li class="nav-item  dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
+          Staff
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="add_user.php">Add Staff</a>
+          <!-- <a class="dropdown-item" href="create_bill.php">Create Bill</a> -->
+        </div>
+      </li>
+
+           <?php
+         }
+      ?>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Logged in <?php echo $_SESSION['user']; ?></a>
         <div class="dropdown-menu" >
