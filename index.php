@@ -36,15 +36,16 @@ if (isset($_SESSION['userid'])){
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     margin-top: 1.5rem;
-    background: rgb(67, 34, 167);
+    background: #e3e0d8;
 }
 </style>
-<div class="row" style="background-image: url(img/bg.jpg);">	
+<div class="row" style="background-image: url(img/bg.jpg); background-repeat:no-repeat;background-position: center; 
+background-size: contain">	
 	<div class="demo-heading">
-		<h2 class="text-white">Login</h2>
+		<h2 style="color:#3e3f40;">Login</h2>
 	</div>
 	<div class="login-form">		
-		<h4>Billing User Login:</h4>		
+		<h4 style="color:#3e3f40;">Billing User Login:</h4>		
 		<form method="post" action="">
 			<div class="form-group">
 			<?php if ($loginError ) { ?>
@@ -61,8 +62,7 @@ if (isset($_SESSION['userid'])){
 				<button type="submit" name="login" class="btn btn-info">Login</button>
 			</div>
 		</form>
-		<br>
-		 <p><b>Email</b> : admin@gmail.com<br><b>Password</b> : admin</p>		
+		<br>		
 	</div>		
 </div>		
 </div>
