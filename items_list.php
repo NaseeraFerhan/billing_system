@@ -12,32 +12,33 @@ $db->checkLoggedIn();
 
 
 	<div class="container">		
-	  <h2 class="title mt-5">Bills</h2>
+	  <h2 class="title mt-5">Products</h2>
 	  <?php #include('menu.php');?>			  
       <table id="data-table" class="table table-condensed table-striped">
         <thead>
           <tr>
-            <th>Bill No.</th>
-            <th>Customer Name</th>
-            <th>Bill Date</th>
-            <th>Bill Total</th>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <!-- <th>Delete</th> -->
           </tr>
         </thead>
         <?php		
-	    	$invoiceList = $db->getInvoiceList($_SESSION['isAdmin']);
-        foreach($invoiceList as $invoiceDetails){
-			$invoiceDate = date("d M Y, H:i", strtotime($invoiceDetails["order_date"]));
+	    	$itemsList = $db->getItems();
+        foreach($itemsList as $item){
+		
 
 
       echo '
               <tr>
-                <td><a href="show_bill.php?invoiceId='.$invoiceDetails["order_id"].'">#'.$invoiceDetails["order_id"].'</a></td>
+                <td>'.$item["id"].'</td>
                 
-                <td>'.$invoiceDetails["order_receiver_name"].'</td>
-                <td>'.$invoiceDate.'</td>
-                <td>'.$invoiceDetails["order_total_amount"].'</td>
+                <td>'.$item["item_name"].'</td>
+                <td>'.$item["price"].'</td>
                 </tr>
             ';
+            //                <td><a href="#" id="'.$item["id"].'" class="deleteItem"  title="Delete Item"><i class="fas fa-trash"></i></a></td>
+
 
             // echo '
             //   <tr>

@@ -31,7 +31,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="add_items.php">Add Item</a>
-          <!-- <a class="dropdown-item" href="create_bill.php">Create Bill</a> -->
+          <a class="dropdown-item" href="items_list.php">Items</a>
         </div>
       </li>
 
@@ -45,7 +45,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="add_user.php">Add Staff</a>
-          <!-- <a class="dropdown-item" href="create_bill.php">Create Bill</a> -->
+          <a class="dropdown-item" href="users_list.php">Staffs</a>
         </div>
       </li>
 

@@ -31,14 +31,18 @@ function selectItem(sel)
       if(element.id == sel.value){
          $('#price_'+count).val(element.price)
          $('#quantity_'+count).val('1')
-         tax = parseFloat(element.price) * (parseFloat(element.tax)/100)
-         $('#total_'+count).val((parseFloat(element.price)+tax).toString())
+         tax = (parseFloat(element.tax)/100)
+         $('#total_'+count).val((parseFloat(element.price)).toString())
+         $('#tax_'+count).val(tax.toString())
+         $('#productCode_'+count).val(element.id)
+         calculateTotal()
       }
 
        var opt = '<option value="'+element.id+'">'+element.item_name+'</option>';
       $('#productName_1').append(opt);     
     });
 });
+
 }
 </script>
 <link href="css/style.css" rel="stylesheet">
@@ -83,7 +87,7 @@ function selectItem(sel)
                         <label class="custom-control-label" for="checkAll"></label>
                         </div>
                     </th>
-                     <th width="15%">Item No</th>
+                     <!-- <th width="15%">Item No</th> -->
                      <th width="38%">Item Name</th>
                      <th width="15%">Quantity</th>
                      <th width="15%">Price</th>
@@ -94,12 +98,13 @@ function selectItem(sel)
                         <input type="checkbox" class="itemRow custom-control-input" id="itemRow_1">
                         <label class="custom-control-label" for="itemRow_1"></label>
                         </div></td>
-                     <td><input readonly type="text" name="productCode[]" id="productCode_1" value="1" class="form-control" autocomplete="off"></td>
+                     <input readonly type="hidden" name="productCode[]" id="productCode_1" value="1" class="form-control" autocomplete="off">
                      <td><select onchange="selectItem(this);" name="productName[]" id="productName_1" class="form-control">
                      <option value="">Select Item</option>
                      </select>
                      </td>
                      <!-- <td><input type="text" name="productName[]" id="productName_1" class="form-control" autocomplete="off"></td> -->
+                     <!-- <input type="hidden" name="tax[]" id="tax_1"/> -->
                      <td><input type="number" name="quantity[]" id="quantity_1" class="form-control quantity" autocomplete="off"></td>
                      <td><input readonly type="number" name="price[]" id="price_1" class="form-control price" autocomplete="off"></td>
                      <td><input readonly type="number" name="total[]" id="total_1" class="form-control total" autocomplete="off"></td>
@@ -113,7 +118,7 @@ function selectItem(sel)
                <button class="btn btn-success" id="addRows" type="button">+ Add More</button>
             </div>
          </div>
-         <div class="row">
+         <!-- <div class="row">
           <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div class="form-group mt-3 mb-3 ">
               <label>Subtotal: &nbsp;</label>
@@ -124,9 +129,9 @@ function selectItem(sel)
             <input value="" type="number" class="form-control" name="subTotal" id="subTotal" placeholder="Subtotal">
           </div>
               </div>
-          </div>
+          </div> -->
           
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <!-- <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div class="form-group mt-3 mb-3 ">
               <label>Tax Amount: &nbsp;</label>
                  <div class="input-group mb-3">
@@ -136,7 +141,7 @@ function selectItem(sel)
             <input value="" type="number" class="form-control" name="taxAmount" id="taxAmount" placeholder="Tax Amount">
           </div>
               </div>
-          </div>
+          </div> -->
           <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div class="form-group mt-3 mb-3 ">
               <label>Total: &nbsp;</label>
@@ -144,7 +149,7 @@ function selectItem(sel)
             <div class="input-group-prepend">
               <span class="input-group-text currency">₹</span>
             </div>
-             <input value="" type="number" class="form-control" name="totalAftertax" id="totalAftertax" placeholder="Total">
+             <input value="" type="number" class="form-control" name="total" id="total" placeholder="Total">
           </div>
               </div>
           </div>

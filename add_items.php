@@ -5,11 +5,10 @@ include 'DbConnect.php';
 $db = new DbConnect();
 $db->checkLoggedIn();
 
-if(isset($_POST['itemName']) && isset($_POST['itemPrice'])){
+if(!empty($_POST['itemName']) && !empty($_POST['itemPrice'])){
     $db->saveItem($_POST); 
-} else {
-    echo "Error";
-}
+    header("Location:items_list.php");	
+} 
 
 ?>
 <title>Bills : Billing System</title>
@@ -38,14 +37,14 @@ if(isset($_POST['itemName']) && isset($_POST['itemPrice'])){
         <td><input type="text" name="itemPrice" id="itemPrice" required></td>
         </tr>
 
-        <tr>
+        <!-- <tr>
         <td>Tax:</td>
         <td><input type="text" name="itemTax" id="itemTax" required></td>
         </tr>
 
         <tr>
         <td>Stock Available:</td>
-        <td><input type="number" name="stock" id="stock" required></td>
+        <td><input type="number" name="stock" id="stock" required></td> -->
 
         </table>
 

@@ -48,14 +48,19 @@ $invoiceItems = $db->getInvoiceItems($_GET['invoiceId'])
         <td>Total</td>
         </tr>
 
-		<?php foreach($invoiceItems as $item){ ?>
+		<?php foreach($invoiceItems as $count=>$item){ ?>
         <tr>
-		<td><?php echo $item['item_code'] ?></td>
-		<td><?php echo $item['item_name'] ?></td>
+		<td><?php echo $count+1; ?></td>
+		<td><?php 
+        $itemData = $db->getItem($item['item_code'])[0];
+        echo $itemData['item_name'] ?></td>
 		<td><?php echo $item['order_item_quantity'] ?></td>
-		<td><?php echo $item['order_item_final_amount'] ?></td>
+		<td><?php echo $item['order_item_quantity'] * $itemData['price'] ?></td>
         </tr>
 		<?php } ?>
+        <td colspan="2"></td>
+        <td><h4>Total</h4></td>
+        <td><h5><?php echo $invoice['order_total_amount'] ?></h5></td>
 
         </table>
 

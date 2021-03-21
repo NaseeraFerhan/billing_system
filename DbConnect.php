@@ -52,7 +52,14 @@ class DbConnect{
 			FROM ".$this->invoiceUserTable." 
 			WHERE email='".$email."' AND password='".$password."'";
         return  $this->getData($sqlQuery);
-	}	
+	}
+	
+	public function getUsers(){
+		$sqlQuery = "
+			SELECT * 
+			FROM ".$this->invoiceUserTable;
+        return  $this->getData($sqlQuery);
+	}
 
 
 	public function checkLoggedIn(){
@@ -63,7 +70,7 @@ class DbConnect{
 
 
 	public function saveInvoice($POST) {		
-		$sqlInsert = "INSERT INTO ".$this->invoiceOrderTable."(user_id, order_receiver_name, order_receiver_address, order_total_before_tax, order_total_tax, order_tax_per, order_total_after_tax, order_amount_paid, order_total_amount_due, note) VALUES ('".$POST['userId']."', '".$POST['customerName']."', '".$POST['address']."', '".$POST['subTotal']."', '".$POST['taxAmount']."', '".$POST['taxRate']."', '".$POST['totalAftertax']."', '".$POST['amountPaid']."', '".$POST['amountDue']."', '". ' ' ."')";		
+		$sqlInsert = "INSERT INTO ".$this->invoiceOrderTable."(user_id, order_receiver_name, order_receiver_address, order_total_amount) VALUES ('".$POST['userId']."', '".$POST['customerName']."', '".$POST['address']."', '".$POST['total']."')";		
 		$result = mysqli_query($this->dbConnect, $sqlInsert);
 		if($result){
 		  echo "True";
@@ -72,7 +79,7 @@ class DbConnect{
 		}
 		$lastInsertId = mysqli_insert_id($this->dbConnect);
 		for ($i = 0; $i < count($POST['productCode']); $i++) {
-			$sqlInsertItem = "INSERT INTO ".$this->invoiceOrderItemTable."(order_id, item_code, item_name, order_item_quantity, order_item_price, order_item_final_amount) VALUES ('".$lastInsertId."', '".$POST['productCode'][$i]."', '".$POST['productName'][$i]."', '".$POST['quantity'][$i]."', '".$POST['price'][$i]."', '".$POST['total'][$i]."')";			
+			$sqlInsertItem = "INSERT INTO ".$this->invoiceOrderItemTable."(order_id, item_code, order_item_quantity) VALUES ('".$lastInsertId."', '".$POST['productCode'][$i]."', '".$POST['quantity'][$i]."')";			
 			mysqli_query($this->dbConnect, $sqlInsertItem);
 		}       	
 	}	
@@ -94,9 +101,12 @@ class DbConnect{
 	}	
 
 
-	public function getInvoiceList(){
+	public function getInvoiceList($isAdmin = 1){
 		$sqlQuery = "SELECT * FROM ".$this->invoiceOrderTable." 
-			WHERE user_id = '".$_SESSION['userid']."'";
+			WHERE user_id = '".$_SESSION['userid']."' order by order_date DESC";
+		if($isAdmin)
+		 $sqlQuery = "SELECT * FROM ".$this->invoiceOrderTable." 
+		  order by order_date DESC";
 		return  $this->getData($sqlQuery);
 	}	
 
@@ -112,6 +122,11 @@ class DbConnect{
 	public function getInvoiceItems($invoiceId){
 		$sqlQuery = "SELECT * FROM ".$this->invoiceOrderItemTable." 
 			WHERE order_id = '$invoiceId'";
+		return  $this->getData($sqlQuery);	
+	}
+	public function getItem($itemId){
+		$sqlQuery = "SELECT * FROM ".$this->invoiceStockTable." 
+			WHERE id = '$itemId'";
 		return  $this->getData($sqlQuery);	
 	}
 
@@ -130,6 +145,12 @@ class DbConnect{
 		$this->deleteInvoiceItems($invoiceId);	
 		return $result;
 	}
+	public function deleteItem($id){
+		$sqlQuery = "DELETE FROM ".$this->invoiceStockTable." 
+			WHERE id = '".$id."'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);	
+		return $result;
+	}
 
 	public function getItems(){
 		$sqlQuery = "SELECT * FROM ".$this->invoiceStockTable." ";
@@ -137,7 +158,7 @@ class DbConnect{
 	}
 
 	public function saveItem($POST) {		
-		$sqlInsert = "INSERT INTO ".$this->invoiceStockTable."(item_name, price, tax, stock) VALUES ('".$POST['itemName']."', '".$POST['itemPrice']."', '".$POST['itemTax']."','".$POST['stock']."')";		
+		$sqlInsert = "INSERT INTO ".$this->invoiceStockTable."(item_name, price) VALUES ('".$POST['itemName']."', '".$POST['itemPrice']."')";		
 		$result = mysqli_query($this->dbConnect, $sqlInsert);
 		if($result){
 		  echo "True";

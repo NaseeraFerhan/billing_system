@@ -12,31 +12,28 @@ $db->checkLoggedIn();
 
 
 	<div class="container">		
-	  <h2 class="title mt-5">Bills</h2>
-	  <?php #include('menu.php');?>			  
+	  <h2 class="title mt-5">Staffs</h2>
       <table id="data-table" class="table table-condensed table-striped">
         <thead>
           <tr>
-            <th>Bill No.</th>
-            <th>Customer Name</th>
-            <th>Bill Date</th>
-            <th>Bill Total</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Admin</th>
           </tr>
         </thead>
         <?php		
-	    	$invoiceList = $db->getInvoiceList($_SESSION['isAdmin']);
-        foreach($invoiceList as $invoiceDetails){
-			$invoiceDate = date("d M Y, H:i", strtotime($invoiceDetails["order_date"]));
+	    	$usersList = $db->getUsers();
+        foreach($usersList as $user){
 
 
       echo '
               <tr>
-                <td><a href="show_bill.php?invoiceId='.$invoiceDetails["order_id"].'">#'.$invoiceDetails["order_id"].'</a></td>
-                
-                <td>'.$invoiceDetails["order_receiver_name"].'</td>
-                <td>'.$invoiceDate.'</td>
-                <td>'.$invoiceDetails["order_total_amount"].'</td>
-                </tr>
+                <td>'.$user["first_name"].' '.$user["last_name"].'</td>
+                <td>'.$user["email"].'</td>
+                <td>'.$user["mobile"].'</td>';
+                echo '<td>'; if ($user["isAdmin"]) echo 'Yes'; else echo 'No';echo '</td>';
+            echo    '</tr>
             ';
 
             // echo '

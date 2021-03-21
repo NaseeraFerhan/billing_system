@@ -15,9 +15,8 @@
 		var htmlRows = '';
 		htmlRows += '<tr>';
 		htmlRows += '<td><div class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input itemRow" id="itemRow_'+count+'"> <label class="custom-control-label" for="itemRow_'+count+'"></label> </div></td>';          
-		htmlRows += '<td><input type="text" name="productCode[]" id="productCode_'+count+'" value="'+count+'" class="form-control" autocomplete="off"></td>';          
+		htmlRows += '<input type="hidden" name="productCode[]" id="productCode_'+count+'" value="'+count+'" class="form-control" autocomplete="off">';          
 		htmlRows += '<td><select onchange="selectItem(this);" type="text" name="productName[]" id="productName_'+count+'" class="form-control" autocomplete="off"><option value="">Select Item</option></select></td>';
-
 		htmlRows += '<td><input type="number" name="quantity[]" id="quantity_'+count+'" class="form-control quantity" autocomplete="off"></td>';   		
 		htmlRows += '<td><input readonly type="number" name="price[]" id="price_'+count+'" class="form-control price" autocomplete="off"></td>';		 
 		htmlRows += '<td><input readonly type="number" name="total[]" id="total_'+count+'" class="form-control total" autocomplete="off"></td>';          
@@ -76,6 +75,25 @@
 			return false;
 		}
 	});
+	$(document).on('click', '.deleteItem', function(){
+		var id = $(this).attr("id");
+		if(confirm("Are you sure you want to remove this?")){
+			$.ajax({
+				url:"action.php",
+				method:"POST",
+				dataType: "json",
+				data:{id:id, action:'delete_item'},				
+				success:function(response) {
+					if(response.status == 1) {
+						$('#'+id).closest("tr").remove();
+						location.reload()
+					}
+				}
+			});
+		} else {
+			return false;
+		}
+	});
 });	
 function calculateTotal(){
 	var totalAmount = 0; 
@@ -91,23 +109,8 @@ function calculateTotal(){
 		$('#total_'+id).val(parseFloat(total));
 		totalAmount += total;			
 	});
-	$('#subTotal').val(parseFloat(totalAmount));	
-	var taxRate = $("#taxRate").val();
-	var subTotal = $('#subTotal').val();	
-	if(subTotal) {
-		var taxAmount = subTotal*taxRate/100;
-		$('#taxAmount').val(taxAmount);
-		subTotal = parseFloat(subTotal)+parseFloat(taxAmount);
-		$('#totalAftertax').val(subTotal);		
-		var amountPaid = $('#amountPaid').val();
-		var totalAftertax = $('#totalAftertax').val();	
-		if(amountPaid && totalAftertax) {
-			totalAftertax = totalAftertax-amountPaid;			
-			$('#amountDue').val(totalAftertax);
-		} else {		
-			$('#amountDue').val(subTotal);
-		}
-	}
+	$('#total').val(parseFloat(totalAmount));	
+	
 }
 
  
