@@ -4,10 +4,20 @@
    include 'DbConnect.php';
    $db = new DbConnect();
    $db->checkLoggedIn();
+   $validateError = '';
    if(!empty($_POST['customerName']) && $_POST['customerName']) {	
-   	$db->saveInvoice($_POST);
-   	header("Location:bill_list.php");	
-   }
+   	if(!empty($_POST['productCode'])&& $_POST['productCode'][0]){
+         $db->saveInvoice($_POST);
+   	   header("Location:bill_list.php");	
+      } else {
+         $validateError = "Atleast add One item";
+      }
+      
+   } else {
+      if($_POST){
+         $validateError = "Error Creating Bill";
+      }
+   } 
    ?>
 <title>New Invoice : Billing System</title>
 <script src="js/invoice.js"></script>
@@ -55,6 +65,13 @@ function selectItem(sel)
          <div class="row">
             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                <h2 class="title">New Bill</h2>
+               <?php 
+                if($validateError){ ?>
+                  <div class="alert alert-warning"><?php echo $validateError ; ?></div>
+                <?php
+                }
+               ?>
+               
                <?php #include('menu.php');?> 
             </div>
          </div>
@@ -98,7 +115,7 @@ function selectItem(sel)
                         <input type="checkbox" class="itemRow custom-control-input" id="itemRow_1">
                         <label class="custom-control-label" for="itemRow_1"></label>
                         </div></td>
-                     <input readonly type="hidden" name="productCode[]" id="productCode_1" value="1" class="form-control" autocomplete="off">
+                     <input readonly type="hidden" name="productCode[]" id="productCode_1" value="" class="form-control" autocomplete="off">
                      <td><select onchange="selectItem(this);" name="productName[]" id="productName_1" class="form-control">
                      <option value="">Select Item</option>
                      </select>

@@ -32,12 +32,16 @@ $invoiceItems = $db->getInvoiceItems($_GET['invoiceId'])
 
         <tr>
         <td>Biller:</td>
-        <td></td>
+        <td><?php $biller = $db->getUser($invoice['user_id'])[0];
+        echo $biller['first_name'].' '.$biller['last_name'].'<br>';
+        echo $biller['address'];
+        ?>
+        </td>
         </tr>
 
         <tr>
         <td>Bill Date:</td>
-        <td><?php echo date("d/M/Y, H:i:s", strtotime($invoice['order_date'])) ?></td>
+        <td><?php echo date("d M Y, H:i", strtotime($invoice['order_date'])) ?></td>
         <tr><td colspan="2"><h4>Items</h4></td></tr>
         </tr>
 
