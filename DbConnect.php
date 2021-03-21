@@ -101,7 +101,7 @@ class DbConnect{
 	}	
 
 
-	public function getInvoiceList($isAdmin = 1){
+	public function getInvoiceList($isAdmin = 0){
 		$sqlQuery = "SELECT * FROM ".$this->invoiceOrderTable." 
 			WHERE user_id = '".$_SESSION['userid']."' order by order_date DESC";
 		if($isAdmin)
