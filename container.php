@@ -15,22 +15,31 @@
         <a class="nav-link" href="index.php">Home</a>
       </li>
       <?php if(isset($_SESSION['userid'])) { ?>
+	   <?php 
+         if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']==0){
+           ?>
       <li class="nav-item  dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
           Bill
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="bill_list.php">Bill List</a>
+		 
           <a class="dropdown-item" href="create_bill.php">Create Bill</a>
+		
         </div>
       </li>
-
+ <?php } ?>
       <li class="nav-item  dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
           Inventory
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		<?php 
+         if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']==1){
+           ?>
           <a class="dropdown-item" href="add_items.php">Add Item</a>
+		 <?php } ?>
           <a class="dropdown-item" href="items_list.php">Items</a>
         </div>
       </li>

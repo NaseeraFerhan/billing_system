@@ -6,7 +6,8 @@ $db = new DbConnect();
 $db->checkLoggedIn();
 
 if(isset($_POST['email']) && isset($_POST['password'])){
-    $db->saveUser($_POST); 
+    $db->saveUser($_POST);
+	header("Location:users_list.php");		
 } else {
    // echo "Error";
 }
@@ -50,12 +51,12 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 
         <tr>
         <td>Mobile:</td>
-        <td><input type="number" name="mobile" id="mobile"></td>
+        <td><input type="number" name="mobile" id="mobile" required></td>
         </tr>
 
         <tr>
         <td>Address:</td>
-        <td><textarea name="address" id="address"></textarea></td>
+        <td><textarea name="address" id="address" required></textarea></td>
         </tr>
 
 

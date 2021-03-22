@@ -4,10 +4,15 @@ include('header.php');
 include 'DbConnect.php';
 $db = new DbConnect();
 $db->checkLoggedIn();
-
+$error = '';
 if(!empty($_POST['itemName']) && !empty($_POST['itemPrice'])){
-    $db->saveItem($_POST); 
+	if(is_numeric($_POST['itemPrice'])){
+		$db->saveItem($_POST); 
     header("Location:items_list.php");	
+	} else{
+		$error = "price not valid";
+	}
+    
 } 
 
 ?>
@@ -20,6 +25,12 @@ if(!empty($_POST['itemName']) && !empty($_POST['itemPrice'])){
 
 	<div class="container">		
 	  <h2 class="title mt-5">Add Item</h2>
+	  <?php 
+                if($error){ ?>
+                  <div class="alert alert-warning"><?php echo $error ; ?></div>
+                <?php
+                }
+               ?>
 	  <?php #include('menu.php');?>		
 
       <form method="post">	  
